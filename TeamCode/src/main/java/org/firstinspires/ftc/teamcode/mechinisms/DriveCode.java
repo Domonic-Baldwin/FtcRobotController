@@ -28,13 +28,13 @@ public void init(HardwareMap hwMap) {
     TopRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     BottomRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-//    imu = hwMap.get(IMU.class, "IMU");
-//
-//    RevHubOrientationOnRobot RevOrient = new RevHubOrientationOnRobot(
-//            RevHubOrientationOnRobot.LogoFacingDirection.UP,
-//            RevHubOrientationOnRobot.UsbFacingDirection.LEFT);
-//
-//    imu.initialize(new IMU.Parameters(RevOrient));
+    imu = hwMap.get(IMU.class, "imu");
+
+    RevHubOrientationOnRobot RevOrient = new RevHubOrientationOnRobot(
+            RevHubOrientationOnRobot.LogoFacingDirection.UP,
+            RevHubOrientationOnRobot.UsbFacingDirection.LEFT);
+
+    imu.initialize(new IMU.Parameters(RevOrient));
 }
 
 
@@ -57,17 +57,17 @@ public void Drive(double forward, double strafe, double rotate, double maxS) {
     TopRight.setPower(maxSpeed * (frontRightPower / maxPower));
     BottomRight.setPower(maxSpeed * (backRightPower / maxPower));
 }
-//public void driveFieldReletive(double forward, double strafe, double rotate){
-//    double theta = Math.atan2(forward, strafe);
-//    double r = Math.hypot(strafe, forward);
-//
-//    theta = AngleUnit.normalizeDegrees(theta -
-//            imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-//
-//        double newForward = r * Math.sin(theta);
-//        double newStrafe = r * Math.cos(theta);
-//
-//        this.Drive(newForward, newStrafe,rotate);
-//}
+public void driveFieldReletive(double forward, double strafe, double rotate, double maxS){
+    double theta = Math.atan2(forward, strafe);
+    double r = Math.hypot(strafe, forward);
+
+    theta = AngleUnit.normalizeDegrees(theta -
+            imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+
+        double newForward = r * Math.sin(theta);
+        double newStrafe = r * Math.cos(theta);
+
+        this.Drive(newForward, newStrafe, rotate, maxS);
+}
 }
 
